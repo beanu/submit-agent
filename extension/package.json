@@ -1,0 +1,36 @@
+{
+	"name": "submit-agent-ext",
+	"private": true,
+	"version": "0.1.0",
+	"type": "module",
+	"scripts": {
+		"dev": "wxt",
+		"build": "wxt build",
+		"zip": "wxt zip",
+		"postinstall": "wxt prepare"
+	},
+	"dependencies": {
+		"@page-agent/core": "^1.6.2",
+		"@page-agent/llms": "^1.6.2",
+		"@page-agent/page-controller": "^1.6.2"
+	},
+	"devDependencies": {
+		"@tailwindcss/vite": "^4.1.0",
+		"@types/chrome": "^0.0.304",
+		"@types/react": "^19.0.0",
+		"@types/react-dom": "^19.0.0",
+		"@wxt-dev/module-react": "^1.2.0",
+		"clsx": "^2.1.1",
+		"idb": "^8.0.3",
+		"lucide-react": "^0.469.0",
+		"react": "^19.0.0",
+		"react-dom": "^19.0.0",
+		"tailwind-merge": "^3.0.0",
+		"tailwindcss": "^4.1.0",
+		"typescript": "^5.7.0",
+		"wxt": "^0.20.0"
+	},
+	"peerDependencies": {
+		"zod": "^3.25.0 || ^4.0.0"
+	}
+}
