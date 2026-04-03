@@ -152,7 +152,7 @@ export async function generateProfile(
 					content: `Generate a directory submission profile from this webpage content:\n\n${pageContent}`,
 				},
 			],
-			temperature: 0.3,
+			temperature: 0.7,
 			max_tokens: 1024,
 		}),
 		signal,

@@ -71,15 +71,11 @@ export function SiteCard({ site, status = 'not_started', onSelect }: SiteCardPro
 
 			{/* Right badges */}
 			<div className="shrink-0 flex flex-col items-end gap-1">
-				<span
-					className={`text-[9px] font-semibold px-1.5 py-0.5 rounded ${
-						site.link_type === 'dofollow'
-							? 'bg-green-100 text-green-700 dark:bg-green-900/50 dark:text-green-300'
-							: 'bg-muted text-muted-foreground'
-					}`}
-				>
-					{site.link_type === 'dofollow' ? 'DF' : 'NF'}
-				</span>
+				{site.pricing && (
+					<span className="text-[9px] font-semibold px-1.5 py-0.5 rounded bg-muted text-muted-foreground">
+						{site.pricing.startsWith('Free') ? 'Free' : 'Paid'}
+					</span>
+				)}
 				{labelKey && (
 					<span className="text-[9px] text-muted-foreground">{t(labelKey)}</span>
 				)}

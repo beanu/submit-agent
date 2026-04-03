@@ -146,9 +146,9 @@ export function SubmitFlow({
 				<span className="text-xs text-muted-foreground shrink-0">
 					DR {site.dr}
 				</span>
-				{site.link_type === 'dofollow' && (
-					<span className="text-[10px] bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 px-1.5 py-0.5 rounded shrink-0">
-						{t('submitFlow.dofollow')}
+				{site.pricing && (
+					<span className="text-[10px] bg-muted px-1.5 py-0.5 rounded shrink-0">
+						{site.pricing.startsWith('Free') ? 'Free' : 'Paid'}
 					</span>
 				)}
 			</header>
@@ -162,29 +162,16 @@ export function SubmitFlow({
 						{/* Site info */}
 						<div className="rounded-lg border border-border bg-muted/30 p-3 space-y-2">
 							<div className="flex items-center justify-between">
-								<a href={site.url} target="_blank" rel="noopener noreferrer" className="text-xs font-medium text-primary hover:underline truncate">
-									{site.url.replace(/^https?:\/\/(www\.)?/, '')}
-								</a>
-								<span className="text-[10px] text-muted-foreground shrink-0 ml-2">{site.category}</span>
+								<span className="text-[10px] text-muted-foreground shrink-0">{site.category}</span>
 							</div>
 							<div className="grid grid-cols-2 gap-x-4 gap-y-1.5 text-xs">
 								<div className="flex items-center gap-1.5">
 									<span className="text-muted-foreground">{t('submitFlow.traffic')}</span>
-									<span className="font-medium">{site.monthly_traffic}</span>
+									<span className="font-medium">{site.monthly_traffic || '—'}</span>
 								</div>
 								<div className="flex items-center gap-1.5">
 									<span className="text-muted-foreground">{t('submitFlow.pricing')}</span>
 									<span className="font-medium capitalize">{site.pricing}</span>
-								</div>
-								<div className="flex items-center gap-1.5">
-									<span className="text-muted-foreground">{t('submitFlow.link')}</span>
-									<span className={`font-medium ${site.link_type === 'dofollow' ? 'text-green-600 dark:text-green-400' : 'text-muted-foreground'}`}>
-										{site.link_type === 'dofollow' ? t('submitFlow.dofollow') : t('submitFlow.nofollow')}
-									</span>
-								</div>
-								<div className="flex items-center gap-1.5">
-									<span className="text-muted-foreground">{t('submitFlow.method')}</span>
-									<span className="font-medium capitalize">{site.submission_method.replace(/-/g, ' ')}</span>
 								</div>
 							</div>
 							{site.notes && (

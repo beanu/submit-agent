@@ -39,28 +39,16 @@ export interface SubmissionRecord {
 	updatedAt: number
 }
 
-export type LinkType = 'dofollow' | 'nofollow'
-
-export type SubmissionMethod =
-	| 'self-serve'
-	| 'community-post'
-	| 'community-driven'
-	| 'claim-profile'
-	| 'submit-article'
-	| 'invite-only'
-	| 'apply'
-
 /** One entry from sites.json */
 export interface SiteData {
 	name: string
-	url: string
 	submit_url: string | null
 	category: string
-	dr: number
+	lang?: string
+	dr: number | null
 	monthly_traffic: string
 	pricing: string
-	link_type: LinkType
-	submission_method: SubmissionMethod
+	status?: string
 	notes?: string
 }
 
