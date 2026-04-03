@@ -15,7 +15,7 @@ You built an AI product. Now you need people to find it.
 
 Google decides whether to show your site based on how many other sites link to you. A new website has zero links — Google doesn't know you exist. The fix: submit your product to directory sites. Each listing creates a backlink, each backlink builds your authority.
 
-96+ sites accept submissions. Manually filling each form — product name, URL, description, logo, categories — takes 3 to 5 days of copy-paste work.
+96+ sites accept submissions. Manually filling each form — product name, URL, description, logo, categories — takes days of copy-paste work.
 
 Submit Agent does this in about 2 hours.
 
@@ -27,6 +27,18 @@ Submit Agent does this in about 2 hours.
 4. You review the filled form, then submit it yourself.
 
 The agent never clicks "submit" for you. You stay in control.
+
+## Features
+
+| Area | Details |
+|------|---------|
+| **385+ verified sites** | [`sites.json`](sites.json) is merged from multiple lists and HTTP-probed; dead links (404) are removed; large sites returning 403 to bots but accessible in browser are marked as available. |
+| **Progress dashboard** | Side panel dashboard: overall progress bar, Recommended / All / Done tabs, sorted by DR; per-site submission flow shows agent status and activity log. |
+| **Resumable** | Submission records and product profiles are stored locally (IndexedDB / `chrome.storage`); close the extension and pick up where you left off next time. |
+| **Based on Alibaba PageAgent** | Core engine is [@page-agent/core](https://github.com/alibaba/page-agent) — structured DOM observation + ReAct loop for click, input, and DOM reading decisions. |
+| **Token-efficient** | No full-page screenshots for visual understanding. Uses DOM / page state, keeping prompts and context focused. |
+| **Description dedup** | System prompt rewrites copy for each site, reducing the risk of being flagged as duplicate content. |
+| **Built-in model option** | Supports built-in, OpenAI, DeepSeek, or any custom OpenAI-compatible endpoint; "Test Connection" in settings. |
 
 ## Install
 
@@ -64,6 +76,8 @@ Submit Agent works with any OpenAI-compatible API. You have four options:
 | **Custom** | Any OpenAI-compatible endpoint — base URL, model name, and optionally an API key. |
 
 Hit **Test Connection** to verify it works before saving.
+
+We recommend using "qwen3.5-flash", "gemini-3-flash", or "claude-haiku-4.5" models. Form-filling doesn't require top-tier reasoning.
 
 ### 2. Add your product
 

@@ -6,7 +6,7 @@ import type {
 } from '@page-agent/core'
 import { useCallback, useRef, useState } from 'react'
 
-import { SubmitAgent } from '@/agent/SubmitAgent'
+import { SubmitAgent, buildProductContext } from '@/agent/SubmitAgent'
 import { getLanguage, getLLMConfig } from '@/lib/storage'
 import type { ProductProfile, SiteData } from '@/lib/types'
 
@@ -61,12 +61,16 @@ export function useSubmitAgent(): UseSubmitAgentResult {
 			console.log('[SubmitAgent] Starting submission', { site: site.name })
 
 			const task = [
-				`First, open the submission page: ${site.submit_url}`,
-				`Site: ${site.name}`,
-				`Product: ${product.name} (${product.url})`,
-				'Fill all form fields with the product data from your context.',
-				'Rewrite descriptions to be unique for this site.',
-				'Do NOT click the final submit button. Stop after filling and report the form status.',
+				`Submit ${product.name} to ${site.name}.`,
+				`Open the submission page: ${site.submit_url}`,
+				'',
+				'Known product information:',
+				buildProductContext(product),
+				'',
+				'Constraints:',
+				'- Rewrite descriptions to be unique for this site.',
+				'- Report any fields you cannot fill (e.g. file uploads).',
+				'- Do NOT click the final submit button. Let the user review and submit manually.',
 			].join('\n')
 
 			try {
@@ -93,11 +97,15 @@ export function useSubmitAgent(): UseSubmitAgentResult {
 			console.log('[SubmitAgent] Starting float-fill on current tab', { siteName, tabUrl })
 
 			const task = [
-				`You are on a product submission form on ${siteName}.`,
-				`Product: ${product.name} (${product.url})`,
-				'Fill all form fields with the product data from your context.',
-				'Rewrite descriptions to be unique for this site.',
-				'Do NOT click the final submit button. Stop after filling and report the form status.',
+				`Fill the submission form on ${siteName} for ${product.name}.`,
+				'',
+				'Known product information:',
+				buildProductContext(product),
+				'',
+				'Constraints:',
+				'- Rewrite descriptions to be unique for this site.',
+				'- Report any fields you cannot fill (e.g. file uploads).',
+				'- Do NOT click the final submit button. Let the user review and submit manually.',
 			].join('\n')
 
 			try {

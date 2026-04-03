@@ -42,9 +42,7 @@ export class SubmitAgent extends PageAgentCore {
 			SUBMIT_PROMPT.replace(
 				/Default working language: \*\*.*?\*\*/,
 				`Default working language: **${targetLanguage}**`
-			) +
-			'\n\n' +
-			buildProductContext(config.product)
+			)
 
 		const includeInitialTab = config.includeInitialTab ?? true
 
@@ -95,7 +93,7 @@ export class SubmitAgent extends PageAgentCore {
 	}
 }
 
-function buildProductContext(product: ProductProfile): string {
+export function buildProductContext(product: ProductProfile): string {
 	const lines = [
 		'## Product Data',
 		'',
