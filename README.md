@@ -9,33 +9,35 @@
 
 ---
 
+<video src="assets/submit_agent.mp4" controls="controls" style="max-width:100%;"></video>
+
 ## The problem
 
-You built an AI product. Now you need people to find it.
+You built an AI product, but nobody knows about it.
 
-Google decides whether to show your site based on how many other sites link to you. A new website has zero links — Google doesn't know you exist. The fix: submit your product to directory sites. Each listing creates a backlink, each backlink builds your authority.
+Google decides whether a site is worth recommending based on how many other sites link to it. A new site has zero links — Google doesn't even know you exist. The fix: submit your product to directory sites. Each listing creates a backlink, and every backlink builds your authority.
 
-96+ sites accept submissions. Manually filling each form — product name, URL, description, logo, categories — takes days of copy-paste work.
+But manually opening each site, finding the form, and filling in fields one by one often takes days.
 
-Submit Agent does this in about 2 hours.
+Submit Agent can compress that to about 2 hours.
 
 ## How it works
 
-1. You fill in your product info once (name, URL, descriptions, logo, social links).
-2. You open a submission page — say, [Futurepedia](https://www.futurepedia.io/submit-tool) or [G2](https://www.g2.com/products/new).
-3. Click the extension. The AI reads the page, figures out which fields need what, and fills them in. Descriptions are auto-rewritten so each submission is unique (Google penalizes duplicate content).
-4. You review the filled form, then submit it yourself.
+**Submit Agent** runs in the browser: the AI reads the form structure on the current page, maps your product profile to each field, and automatically rewrites descriptions to avoid duplicate content.
 
-The agent never clicks "submit" for you. You stay in control.
+1. You fill in your product info once (name, URL, descriptions, logo, social links).
+2. Open a submission page — say, [Futurepedia](https://www.futurepedia.io/submit-tool) or [G2](https://www.g2.com/products/new).
+3. Click the extension. The AI reads the page structure, figures out which fields need what, and fills them in. Descriptions are auto-rewritten so each submission is unique (Google penalizes duplicate content).
+4. You review the filled form, then submit it yourself.
 
 ## Features
 
 | Area | Details |
 |------|---------|
-| **385+ verified sites** | [`sites.json`](sites.json) is merged from multiple lists and HTTP-probed; dead links (404) are removed; large sites returning 403 to bots but accessible in browser are marked as available. |
-| **Progress dashboard** | Side panel dashboard: overall progress bar, Recommended / All / Done tabs, sorted by DR; per-site submission flow shows agent status and activity log. |
-| **Resumable** | Submission records and product profiles are stored locally (IndexedDB / `chrome.storage`); close the extension and pick up where you left off next time. |
-| **Based on Alibaba PageAgent** | Core engine is [@page-agent/core](https://github.com/alibaba/page-agent) — structured DOM observation + ReAct loop for click, input, and DOM reading decisions. |
+| **385+ verified sites** | [`sites.json`](sites.json) collects backlinks from across the web, deduplicates them, and verifies site health. |
+| **Progress dashboard** | Side panel dashboard: overall progress bar, sorted by DR; per-site submission flow shows agent status and activity log. |
+| **Resumable** | Submission records and product profiles are stored locally (IndexedDB / `chrome.storage`). |
+| **Based on PageAgent** | Core engine is [@page-agent](https://github.com/alibaba/page-agent) and related packages (Alibaba PageAgent ecosystem) — structured DOM observation + ReAct loop for click, input, and DOM reading decisions. |
 | **Token-efficient** | No full-page screenshots for visual understanding. Uses DOM / page state, keeping prompts and context focused. |
 | **Description dedup** | System prompt rewrites copy for each site, reducing the risk of being flagged as duplicate content. |
 | **Built-in model option** | Supports built-in, OpenAI, DeepSeek, or any custom OpenAI-compatible endpoint; "Test Connection" in settings. |
@@ -44,7 +46,7 @@ The agent never clicks "submit" for you. You stay in control.
 
 ### From release (recommended)
 
-1. Download the latest `.zip` from [Releases](https://github.com/your-username/submit-agent/releases).
+1. Download the latest `.zip` from [Releases](https://github.com/beanu/submit-agent/releases).
 2. Unzip it.
 3. Open Chrome → `chrome://extensions` → turn on **Developer mode** (top right).
 4. Click **Load unpacked** → select the unzipped folder.
@@ -66,16 +68,7 @@ The built extension lands in `extension/.output/chrome-mv3/`. Load that folder a
 
 Click the extension icon → **Settings**.
 
-Submit Agent works with any OpenAI-compatible API. You have four options:
-
-| Provider | What you need |
-|----------|--------------|
-| **Built-in** | Nothing. Free tier, works out of the box. |
-| **OpenAI** | Your API key. Uses `gpt-4o-mini` by default. |
-| **DeepSeek** | Your API key. Uses `deepseek-chat` by default. |
-| **Custom** | Any OpenAI-compatible endpoint — base URL, model name, and optionally an API key. |
-
-Hit **Test Connection** to verify it works before saving.
+Submit Agent works with any OpenAI-compatible API.
 
 We recommend using "qwen3.5-flash", "gemini-3-flash", or "claude-haiku-4.5" models. Form-filling doesn't require top-tier reasoning.
 
@@ -91,7 +84,7 @@ Want to submit multiple products? The dropdown in the top-left corner of the sid
 
 ### Method 1: Pick a site from the dashboard
 
-Open the side panel (click the extension icon). You'll see a dashboard with all 96 sites, sorted by DR (Domain Rating — higher means a more valuable backlink). Sites you've already submitted to are tracked.
+Open the side panel (click the extension icon). You'll see a dashboard listing all sites, sorted by DR (Domain Rating). Sites you've already submitted to are marked.
 
 Click any site → **Start Auto-fill**. The extension opens the submission page and the AI fills the form. When it's done, review and submit.
 
@@ -99,24 +92,9 @@ Click any site → **Start Auto-fill**. The extension opens the submission page 
 
 Already on a submission page? Click the floating button that appears in the bottom-right corner of any webpage (you can toggle this off in Settings). The agent fills the form on whatever page you're on.
 
-### What the dashboard shows
-
-- **Recommended** — sites you haven't submitted to yet, sorted by DR. Start here.
-- **All** — every site in the database, searchable.
-- **Done** — sites you've already submitted to or skipped.
-- A progress bar showing how many of the 96 sites you've covered.
-
 ## Sites database
 
-The full list of 96 submission sites lives in [`sites.json`](sites.json). Each entry includes:
-
-| Field | Meaning |
-|-------|---------|
-| `dr` | Domain Rating (0–100). Higher = more valuable backlink. |
-| `link_type` | `dofollow` (real SEO value) or `nofollow` (traffic only). |
-| `pricing` | Free, freemium, or paid. |
-| `submit_url` | Direct link to the submission form. |
-| `submission_method` | How you submit: self-serve form, community post, profile claim, etc. |
+The complete data for all backlink sites lives in [`sites.json`](sites.json).
 
 Six categories: AI directories, startup directories, review platforms, developer communities, deal platforms, and general SEO directories.
 
@@ -136,7 +114,7 @@ npm run zip      # package as .zip for distribution
 
 - **[WXT](https://wxt.dev/)** — browser extension framework (Manifest V3)
 - **React 19** + **Tailwind CSS v4** — side panel and options page UI
-- **[@page-agent/core](https://github.com/anthropics/page-agent)** — the AI engine that drives DOM analysis and form-filling (Alibaba PageAgent)
+- **[@page-agent/core](https://github.com/alibaba/page-agent)** — the AI engine that drives DOM analysis and form-filling (Alibaba PageAgent)
 - **IndexedDB** — stores product profiles and submission records locally
 - **chrome.storage** — persists LLM settings and preferences
 
