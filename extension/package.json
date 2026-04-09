@@ -10,9 +10,9 @@
 		"postinstall": "wxt prepare"
 	},
 	"dependencies": {
-		"@page-agent/core": "^1.6.2",
-		"@page-agent/llms": "^1.6.2",
-		"@page-agent/page-controller": "^1.6.2"
+		"@page-agent/core": "^1.7.1",
+		"@page-agent/llms": "^1.7.1",
+		"@page-agent/page-controller": "^1.7.1"
 	},
 	"devDependencies": {
 		"@tailwindcss/vite": "^4.1.0",
