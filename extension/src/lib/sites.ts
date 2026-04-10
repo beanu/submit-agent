@@ -8,7 +8,16 @@ export async function loadSites(): Promise<SiteData[]> {
 	const url = chrome.runtime.getURL('sites.json')
 	const resp = await fetch(url)
 	const data: SitesDatabase = await resp.json()
-	cachedSites = data.sites
+
+	// Deduplicate by name — keep the entry with highest DR
+	const byName = new Map<string, SiteData>()
+	for (const site of data.sites) {
+		const existing = byName.get(site.name)
+		if (!existing || (site.dr ?? 0) > (existing.dr ?? 0)) {
+			byName.set(site.name, site)
+		}
+	}
+	cachedSites = [...byName.values()]
 	return cachedSites
 }
 

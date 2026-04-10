@@ -18,13 +18,15 @@ const en = {
 
 	// dashboard
 	'dashboard.submitted': '{submitted} / {total} submitted',
-	'dashboard.recommended': 'Recommended',
 	'dashboard.all': 'All',
-	'dashboard.done': 'Done',
 	'dashboard.searchPlaceholder': 'Search sites...',
-	'dashboard.emptyRecommended': 'All recommended sites are done!',
 	'dashboard.emptyAll': 'No sites match your search',
-	'dashboard.emptyDone': 'No submitted or skipped sites yet',
+	'dashboard.tab.all': 'All',
+	'dashboard.tab.ai': 'AI Directories',
+	'dashboard.tab.startup': 'Startup',
+	'dashboard.tab.seo': 'SEO',
+	'dashboard.tab.community': 'Community',
+	'dashboard.tab.github': 'GitHub',
 
 	// siteCard
 	'siteCard.manual': 'manual',
@@ -201,13 +203,15 @@ const zh: Record<keyof typeof en, string> = {
 
 	// dashboard
 	'dashboard.submitted': '已提交 {submitted} / {total}',
-	'dashboard.recommended': '推荐',
 	'dashboard.all': '全部',
-	'dashboard.done': '已完成',
 	'dashboard.searchPlaceholder': '搜索站点...',
-	'dashboard.emptyRecommended': '所有推荐站点已完成！',
 	'dashboard.emptyAll': '没有匹配的站点',
-	'dashboard.emptyDone': '暂无已提交或跳过的站点',
+	'dashboard.tab.all': '全部',
+	'dashboard.tab.ai': 'AI 目录',
+	'dashboard.tab.startup': 'Startup',
+	'dashboard.tab.seo': 'SEO 外链',
+	'dashboard.tab.community': '社区',
+	'dashboard.tab.github': 'GitHub',
 
 	// siteCard
 	'siteCard.manual': '手动',
