@@ -3,13 +3,15 @@ import { useMemo, useRef, useState } from 'react'
 import { useT } from '@/hooks/useLanguage'
 import { SiteCard } from './SiteCard'
 
+export type Tab = 'all' | 'ai' | 'startup' | 'seo' | 'community' | 'github'
+
 interface DashboardProps {
 	sites: SiteData[]
 	submissions: Map<string, SubmissionRecord>
 	onSelectSite: (site: SiteData) => void
+	activeTab: Tab
+	onTabChange: (tab: Tab) => void
 }
-
-type Tab = 'all' | 'ai' | 'startup' | 'seo' | 'community' | 'github'
 
 /** Map raw site category → consolidated tab group */
 const CATEGORY_GROUP: Record<string, Tab> = {
@@ -37,9 +39,8 @@ function getGroup(category: string | undefined): Tab | null {
 	return CATEGORY_GROUP[category] ?? null
 }
 
-export function Dashboard({ sites, submissions, onSelectSite }: DashboardProps) {
+export function Dashboard({ sites, submissions, onSelectSite, activeTab, onTabChange }: DashboardProps) {
 	const t = useT()
-	const [tab, setTab] = useState<Tab>('all')
 	const [search, setSearch] = useState('')
 	const tabScrollRef = useRef<HTMLDivElement>(null)
 
@@ -69,9 +70,9 @@ export function Dashboard({ sites, submissions, onSelectSite }: DashboardProps) 
 	}, [aliveSites.length, submissions])
 
 	// Filter by tab
-	let filtered = tab === 'all'
+	let filtered = activeTab === 'all'
 		? aliveSites
-		: aliveSites.filter((s) => getGroup(s.category) === tab)
+		: aliveSites.filter((s) => getGroup(s.category) === activeTab)
 
 	// Filter by search
 	const q = search.trim().toLowerCase()
@@ -87,7 +88,7 @@ export function Dashboard({ sites, submissions, onSelectSite }: DashboardProps) 
 	const pct = stats.total > 0 ? Math.round((stats.submitted / stats.total) * 100) : 0
 
 	function handleTabClick(id: Tab) {
-		setTab(id)
+		onTabChange(id)
 		const btn = tabScrollRef.current?.querySelector<HTMLElement>(`[data-tab="${id}"]`)
 		btn?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
 	}
@@ -123,7 +124,7 @@ export function Dashboard({ sites, submissions, onSelectSite }: DashboardProps) 
 						type="button"
 						onClick={() => handleTabClick(def.id)}
 						className={`shrink-0 px-3 py-1.5 text-xs font-medium border-b-2 transition-colors cursor-pointer ${
-							tab === def.id
+							activeTab === def.id
 								? 'border-primary text-foreground'
 								: 'border-transparent text-muted-foreground hover:text-foreground'
 						}`}

@@ -49,7 +49,7 @@ export function handleTabControlMessage(
 		case 'open_new_tab': {
 			debug('open_new_tab', payload)
 			chrome.tabs
-				.create({ url: payload.url, active: false })
+				.create({ url: payload.url, active: true })
 				.then((newTab) => {
 					debug('open_new_tab: success', newTab)
 					sendResponse({ success: true, tabId: newTab.id })

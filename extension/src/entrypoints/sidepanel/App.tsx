@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import type { SiteData } from '@/lib/types'
+import type { Tab } from '@/components/Dashboard'
 import { Dashboard } from '@/components/Dashboard'
 import { QuickCreate } from '@/components/QuickCreate'
 import { SubmitFlow } from '@/components/SubmitFlow'
@@ -20,6 +21,7 @@ type View =
 export default function App() {
 	const t = useT()
 	const [view, setView] = useState<View>({ name: 'dashboard' })
+	const [activeTab, setActiveTab] = useState<Tab>('all')
 	const [dropdownOpen, setDropdownOpen] = useState(false)
 	const dropdownRef = useRef<HTMLDivElement>(null)
 	const { products, activeProduct, loading: productLoading, createProduct, setActive } = useProduct()
@@ -114,7 +116,10 @@ export default function App() {
 					onStartSubmit={async () => {
 						setAgentError(null)
 						try {
-							await startSubmission(view.site, activeProduct!)
+							const result = await startSubmission(view.site, activeProduct!)
+							if (result.success) {
+								markSubmitted(view.site.name, activeProduct!.id)
+							}
 						} catch (err) {
 							setAgentError(err instanceof Error ? err.message : String(err))
 						}
@@ -231,6 +236,8 @@ export default function App() {
 					<Dashboard
 						sites={sites}
 						submissions={submissions}
+						activeTab={activeTab}
+						onTabChange={setActiveTab}
 						onSelectSite={(site) => { reset(); setAgentError(null); setView({ name: 'site-detail', site }) }}
 					/>
 				)}
